@@ -1,0 +1,23 @@
+﻿@model MvcBasicStockControl.Models.Customer
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("Update", "Customer", FormMethod.Post))
+{
+    <input type="hidden" asp-for="CustomerId"  />
+    <div class="form-group">
+        <br />
+        @Html.LabelFor(a => a.FirstName)
+        @Html.TextBoxFor(a => a.FirstName, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(a => a.LastName)
+        @Html.TextBoxFor(a => a.LastName, new { @class = "form-control" })
+
+    </div>
+    <div>
+        <button class="btn btn-block"><strong>Update</strong></button>
+    </div>
+}
+

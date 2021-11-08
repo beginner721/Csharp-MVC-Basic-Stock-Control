@@ -1,0 +1,19 @@
+﻿@model MvcBasicStockControl.Models.Category
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("Update", "Category", FormMethod.Post))
+{
+    <input type="hidden" asp-for="CategoryId" />
+    <div class="form-group">
+        @Html.LabelFor(a => a.CategoryName)
+        @Html.TextBoxFor(a => a.CategoryName, new { @class = "form-control" })
+    </div>
+    <div>
+        <button class="btn btn-success">Update to Category</button>
+    </div>
+}
+

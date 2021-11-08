@@ -1,0 +1,33 @@
+﻿@model MvcBasicStockControl.Models.Product
+@{
+    ViewData["Title"] = "AddProduct";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<form method="post" class="form-group">
+    <div>
+        <label>Choose Category</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.Categorynames,"CategoryId","CategoryName"))"></select>
+    </div>
+    <div>
+        <label>Product Name</label>
+        <input type="text" class="form-control" name="ProductName" />
+    </div>
+    <div>
+        <label>Brand</label>
+        <input type="text" class="form-control" name="Brand" />
+    </div>
+    <div>
+        <label>Price</label>
+        <input type="text" class="form-control" name="Price" />
+        <div>
+            <label>Unit In Stock</label>
+            <input type="text" class="form-control" name="Stock" />
+        </div>
+        <div style="margin-top:15px;">
+            <button class="btn btn-info">Add Product</button>
+        </div>
+    </div>
+
+</form>
+

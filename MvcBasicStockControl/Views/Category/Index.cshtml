@@ -1,0 +1,27 @@
+﻿@using MvcBasicStockControl.Models
+@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Category Id</th>
+        <th>Category Name</th>
+        <th>Operations</th>
+
+    </tr>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <th>@category.CategoryId</th>
+                <td>@category.CategoryName</td>
+                <td><a href="/Category/Delete/@category.CategoryId" class="btn btn-danger">Delete</a>
+                <a href="/Category/Update/@category.CategoryId" class="btn btn-success">Update</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Category/AddCategory/" class="btn btn-primary">Add a New Category</a>

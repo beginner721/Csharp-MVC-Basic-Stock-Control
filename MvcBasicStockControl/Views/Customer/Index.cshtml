@@ -1,0 +1,31 @@
+﻿@using MvcBasicStockControl.Models
+@model List<Customer>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Customer Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Opertaions</th>
+    </tr>
+
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <th>@customer.CustomerId</th>
+                <td>@customer.FirstName</td>
+                <td>@customer.LastName</td>
+                <td><a href="/Customer/Delete/@customer.CustomerId" class="btn btn-danger">Delete</a>
+                <a href="/Customer/Update/@customer.CustomerId" class="btn btn-success">Update</a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<a href="/Customer/AddCustomer/" class="btn btn-primary">Add a New Customer</a>
