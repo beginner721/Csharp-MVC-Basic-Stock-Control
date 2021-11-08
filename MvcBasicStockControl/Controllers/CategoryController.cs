@@ -33,7 +33,7 @@ namespace MvcBasicStockControl.Controllers
             result = validator.Validate(category);
             if (!result.IsValid)
             {
-                return View("Hata");
+                return BadRequest("Hata");
             }
             context.Categories.Add(category);
             context.SaveChanges();

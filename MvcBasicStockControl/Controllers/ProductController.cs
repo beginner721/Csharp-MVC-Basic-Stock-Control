@@ -5,11 +5,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using MvcBasicStockControl.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using FluentValidation.Results;
+using MvcBasicStockControl.ValidationRules;
 
 namespace MvcBasicStockControl.Controllers
 {
     public class ProductController : Controller
     {
+        ValidationResult result = new ValidationResult();
+        ProductValidator validator = new ProductValidator();
         MvcWorkContext context = new MvcWorkContext();
         public IActionResult Index()
         {
@@ -24,6 +28,7 @@ namespace MvcBasicStockControl.Controllers
         [HttpGet]
         public IActionResult AddProduct()
         {
+            //We need Product with Category Name
             var categoryList = context.Categories.Select(a => new Category
             { CategoryId = a.CategoryId, CategoryName = a.CategoryName }).ToList();
 
@@ -33,6 +38,11 @@ namespace MvcBasicStockControl.Controllers
         [HttpPost]
         public IActionResult AddProduct(Product product)
         {
+            result = validator.Validate(product);
+            if (!result.IsValid)
+            {
+                return BadRequest("Hata");
+            }
             var category = context.Categories.Where(a => a.CategoryId == product.CategoryId).FirstOrDefault();
             product.Category = category;
             context.Products.Add(product);

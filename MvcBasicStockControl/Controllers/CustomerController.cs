@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using MvcBasicStockControl.Models;
+using MvcBasicStockControl.ValidationRules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ namespace MvcBasicStockControl.Controllers
 {
     public class CustomerController : Controller
     {
+        ValidationResult result = new ValidationResult();
+        CustomerValidator validator = new CustomerValidator();
         MvcWorkContext context = new MvcWorkContext();
         public IActionResult Index()
         {
@@ -23,6 +27,11 @@ namespace MvcBasicStockControl.Controllers
         [HttpPost]
         public IActionResult AddCustomer(Customer customer)
         {
+            result = validator.Validate(customer);
+            if (!result.IsValid)
+            {
+                return BadRequest("Hata");
+            }
             context.Customers.Add(customer);
             context.SaveChanges();
             return View();
