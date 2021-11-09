@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MvcBasicStockControl.Models;
 using MvcBasicStockControl.ValidationRules;
 using FluentValidation.Results;
+using MvcBasicStockControl.Constants;
+using X.PagedList;
 
 namespace MvcBasicStockControl.Controllers
 {
@@ -15,10 +17,13 @@ namespace MvcBasicStockControl.Controllers
         CategoryValidator validator = new CategoryValidator();
         MvcWorkContext context = new MvcWorkContext();
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var categories = context.Categories.ToList();
-            return View(categories);
+            var pageNumber = page ?? 1;
+            //var categories = context.Categories.ToList();
+            var onePageOfCategories = context.Categories.ToList().ToPagedList(pageNumber,3);
+            ViewBag.OnePageOfCategories = onePageOfCategories;
+            return View(onePageOfCategories);
         }
 
         [HttpGet]
@@ -33,7 +38,7 @@ namespace MvcBasicStockControl.Controllers
             result = validator.Validate(category);
             if (!result.IsValid)
             {
-                return BadRequest("Hata");
+                return BadRequest(Messages.Error);
             }
             context.Categories.Add(category);
             context.SaveChanges();

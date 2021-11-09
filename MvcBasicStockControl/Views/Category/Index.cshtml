@@ -1,5 +1,8 @@
 ﻿@using MvcBasicStockControl.Models
-@model List<Category>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+
+@model X.PagedList.IPagedList<Category>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -18,10 +21,15 @@
             <tr>
                 <th>@category.CategoryId</th>
                 <td>@category.CategoryName</td>
-                <td><a href="/Category/Delete/@category.CategoryId" class="btn btn-danger">Delete</a>
-                <a href="/Category/Update/@category.CategoryId" class="btn btn-success">Update</a></td>
+                <td>
+                    <a href="/Category/Delete/@category.CategoryId" class="btn btn-danger">Delete</a>
+                    <a href="/Category/Update/@category.CategoryId" class="btn btn-success">Update</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfCategories, page => Url.Action("Index", new { page }))
+<a
+
 <a href="/Category/AddCategory/" class="btn btn-primary">Add a New Category</a>

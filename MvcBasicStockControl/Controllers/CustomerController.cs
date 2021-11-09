@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using MvcBasicStockControl.Constants;
 using MvcBasicStockControl.Models;
 using MvcBasicStockControl.ValidationRules;
 using System;
@@ -30,11 +31,11 @@ namespace MvcBasicStockControl.Controllers
             result = validator.Validate(customer);
             if (!result.IsValid)
             {
-                return BadRequest("Hata");
+                return BadRequest(Messages.Error);
             }
             context.Customers.Add(customer);
             context.SaveChanges();
-            return View();
+            return RedirectToAction(nameof(Index));
         }
         public IActionResult Delete(int id)
         {

@@ -20,8 +20,9 @@
                 <th>@customer.CustomerId</th>
                 <td>@customer.FirstName</td>
                 <td>@customer.LastName</td>
-                <td><a href="/Customer/Delete/@customer.CustomerId" class="btn btn-danger">Delete</a>
-                <a href="/Customer/Update/@customer.CustomerId" class="btn btn-success">Update</a>
+                <td>
+                    <a href="/Customer/Delete/@customer.CustomerId" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                    <a href="/Customer/Update/@customer.CustomerId" class="btn btn-success">Update</a>
                 </td>
             </tr>
 
