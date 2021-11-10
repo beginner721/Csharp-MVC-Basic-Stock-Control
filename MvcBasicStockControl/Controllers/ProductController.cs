@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using FluentValidation.Results;
 using MvcBasicStockControl.ValidationRules;
 using MvcBasicStockControl.Constants;
+using X.PagedList;
 
 namespace MvcBasicStockControl.Controllers
 {
@@ -16,14 +17,16 @@ namespace MvcBasicStockControl.Controllers
         ValidationResult result = new ValidationResult();
         ProductValidator validator = new ProductValidator();
         MvcWorkContext context = new MvcWorkContext();
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var products = context.Products.ToList();
-            foreach (var product in products)
+            var pageNumber = page ?? 1;
+            var onePageOfProducts = context.Products.ToList().ToPagedList(pageNumber, 3);
+            foreach (var product in onePageOfProducts)
             {
                 context.Entry(product).Reference(db => db.Category).Load();
             }
-            return View(products);
+            ViewBag.OnePageOfProducts = onePageOfProducts;
+            return View(onePageOfProducts);
         }
 
         [HttpGet]
@@ -39,7 +42,7 @@ namespace MvcBasicStockControl.Controllers
             result = validator.Validate(product);
             if (!result.IsValid)
             {
-                return BadRequest(Messages.Error);
+                return View(result.Errors);
             }
             var category = context.Categories.Where(a => a.CategoryId == product.CategoryId).FirstOrDefault();
             product.Category = category;

@@ -20,7 +20,6 @@ namespace MvcBasicStockControl.Controllers
         public IActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
-            //var categories = context.Categories.ToList();
             var onePageOfCategories = context.Categories.ToList().ToPagedList(pageNumber,3);
             ViewBag.OnePageOfCategories = onePageOfCategories;
             return View(onePageOfCategories);

@@ -1,5 +1,7 @@
 ﻿@using MvcBasicStockControl.Models
-@model List<Product>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@model IPagedList<Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -25,13 +27,15 @@
                 <td>@product.Category.CategoryName</td>
                 <td>@product.Price</td>
                 <td>@product.Stock</td>
-                <td><a href ="/Product/Delete/@product.ProductId" class="btn btn-danger">Delete</a>
-                <a href ="/Product/Update/@product.ProductId" class="btn btn-success">Update</a>
+                <td>
+                    <a href="/Product/Delete/@product.ProductId" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                    <a href="/Product/Update/@product.ProductId" class="btn btn-success">Update</a>
                 </td>
             </tr>
 
         }
     </tbody>
 </table>
+@Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Index", new { page }))
 <a href="/Product/AddProduct/" class="btn btn-primary">Add a New Product</a>
 

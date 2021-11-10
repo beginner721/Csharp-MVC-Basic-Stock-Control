@@ -22,7 +22,7 @@
                 <th>@category.CategoryId</th>
                 <td>@category.CategoryName</td>
                 <td>
-                    <a href="/Category/Delete/@category.CategoryId" class="btn btn-danger">Delete</a>
+                    <a href="/Category/Delete/@category.CategoryId" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
                     <a href="/Category/Update/@category.CategoryId" class="btn btn-success">Update</a>
                 </td>
             </tr>
