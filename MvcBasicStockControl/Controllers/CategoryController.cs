@@ -8,6 +8,7 @@ using MvcBasicStockControl.ValidationRules;
 using FluentValidation.Results;
 using MvcBasicStockControl.Constants;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcBasicStockControl.Controllers
 {
@@ -17,6 +18,7 @@ namespace MvcBasicStockControl.Controllers
         CategoryValidator validator = new CategoryValidator();
         MvcWorkContext context = new MvcWorkContext();
 
+       
         public IActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;

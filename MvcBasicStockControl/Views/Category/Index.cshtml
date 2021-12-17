@@ -30,6 +30,6 @@
     </tbody>
 </table>
 @Html.PagedListPager((IPagedList)ViewBag.OnePageOfCategories, page => Url.Action("Index", new { page }))
-<a
+
 
 <a href="/Category/AddCategory/" class="btn btn-primary">Add a New Category</a>

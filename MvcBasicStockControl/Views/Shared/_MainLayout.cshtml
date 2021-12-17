@@ -1,6 +1,8 @@
-﻿@{ 
+﻿@{
     Layout = null;
 }
+@using Microsoft.AspNetCore.Http
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +26,22 @@
                 <li class="active"><a href="/Customer/Index">Customers</a></li>
                 <li class="active"><a href="/Order/Index">Orders</a></li>
                 <li class="active"><a href="/Default/Index">Help</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav" style="float:right !important">
+
+
+                }
+                @if (Context.Session.GetString("ssUserId") != null)
+                {
+                    <li class="active"><a href="/Category/Index">Hello @Context.Session.GetString("ssUsername")</a></li>
+                    <li class="active"><a href="/Admin/Logout" onclick="return confirm('Are you sure to logout?')">Log out</a></li>
+                }
+                else
+                {
+                    <li class="active"><a href="/Admin/Login">Log in</a></li>
+                    <li class="active"><a href="/Admin/Signup">Sign Up</a></li>
+                }
             </ul>
         </div>
     </nav>

@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MvcBasicStockControl.Constants;
 using MvcBasicStockControl.Models;
@@ -15,6 +16,8 @@ namespace MvcBasicStockControl.Controllers
         ValidationResult result = new ValidationResult();
         CustomerValidator validator = new CustomerValidator();
         MvcWorkContext context = new MvcWorkContext();
+
+        [Authorize]
         public IActionResult Index()
         {
             var customers = context.Customers.ToList();
