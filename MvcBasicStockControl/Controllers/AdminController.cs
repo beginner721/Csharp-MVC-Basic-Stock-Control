@@ -25,11 +25,14 @@ namespace MvcBasicStockControl.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(User user)
         {
-            var checkId = context.Users.Any(u => u.Username == user.Username);
-            if (checkId)
+            var currentUser = context.Users.FirstOrDefault(u => u.Username == user.Username);
+            if (currentUser == null)
             {
-                var checkPass = context.Users.Any(u => u.Password == user.Password);
-                if (checkPass)
+                ViewBag.Error = Messages.LoginError;
+            }
+            else
+            {
+                if (user.Password == currentUser.Password)
                 {
                     var claims = new List<Claim>
                     {
@@ -39,32 +42,13 @@ namespace MvcBasicStockControl.Controllers
                     ClaimsPrincipal principal = new ClaimsPrincipal(userId);
                     await HttpContext.SignInAsync(principal);
 
-                   HttpContext.Session.SetString("ssUserId", (user.Id).ToString());
-                   HttpContext.Session.SetString("ssUsername", (user.Username).ToString());
+                    HttpContext.Session.SetString("ssUserId", (currentUser.Id).ToString());
+                    HttpContext.Session.SetString("ssUsername", (user.Username).ToString());
                     return RedirectToAction("Index", "Category");
                 }
-                else
-                {
-                    ViewBag.Error = Messages.LoginError;
-                }
-            }
-            else
-            {
                 ViewBag.Error = Messages.LoginError;
             }
             return View();
-            //var check = context.Users.Where(u => u.Username == user.Username && u.Password == user.Password);
-            //if (check != null)
-            //{
-            //    HttpContext.Session.SetString("ssUserId", (user.Id).ToString());
-            //    HttpContext.Session.SetString("ssUsername", (user.Username).ToString());
-            //    return RedirectToAction("Index", "Category");
-            //}
-            //else
-            //{
-            //    ViewBag.Error = Messages.LoginError;
-            //}
-            //return View();
         }
 
         [HttpGet]
@@ -77,7 +61,7 @@ namespace MvcBasicStockControl.Controllers
         public IActionResult Signup(User user)
         {
 
-            if (context.Users.Any(u=> u.Username== user.Username))
+            if (context.Users.Any(u => u.Username == user.Username))
             {
                 ViewBag.Notification = "This account already existed.";
                 return View();
@@ -90,7 +74,7 @@ namespace MvcBasicStockControl.Controllers
                 HttpContext.Session.SetString("ssUsername", (user.Username).ToString());
 
                 //ViewBag.Session = HttpContext.Session.GetString("ssUserId");
-                return RedirectToAction("Index","Category");
+                return RedirectToAction("Index", "Category");
             }
         }
         public async Task<IActionResult> Logout()
@@ -99,9 +83,37 @@ namespace MvcBasicStockControl.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
             return RedirectToAction(nameof(Login));
-            
+
         }
 
 
+        public IActionResult Details(int id)
+        {
+            var user = context.Users.Find(id);
+            return View(user);
+        }
+        [HttpPost]
+        public IActionResult Details(User user)
+        {
+            var oldPass = context.Users.Find(user.Id).Password;
+
+            if (user.OldPass == oldPass)
+            {
+                MvcWorkContext context2 = new MvcWorkContext();//we need new context because old context is on tracking
+                context2.Users.Update(user);
+                context2.SaveChanges();
+                TempData["PasswordError"] = "Password update successful.";
+
+            }
+            else
+            {
+
+                ViewBag.PasswordError = "Old password not correct.";
+                return View(user);
+
+            }
+
+            return RedirectToAction(nameof(Details));
+        }
     }
 }

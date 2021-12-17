@@ -34,7 +34,7 @@
                 }
                 @if (Context.Session.GetString("ssUserId") != null)
                 {
-                    <li class="active"><a href="/Category/Index">Hello @Context.Session.GetString("ssUsername")</a></li>
+                    <li class="active"><a href="/Admin/Details/@Context.Session.GetString("ssUserId")">Hello @Context.Session.GetString("ssUsername")</a></li>
                     <li class="active"><a href="/Admin/Logout" onclick="return confirm('Are you sure to logout?')">Log out</a></li>
                 }
                 else

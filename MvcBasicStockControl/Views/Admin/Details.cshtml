@@ -1,0 +1,54 @@
+﻿@model MvcBasicStockControl.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1>Details</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Details" method="post">
+            <div class="form-group">
+                <div class="col-md-12 col-md-10">
+                    <label>@TempData["PasswordError"]</label>
+                    <label>@ViewBag.UpdateSuccess</label>
+                </div>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Username" class="control-label">Username</label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OldPass" class="control-label">Old Password</label>
+                <input asp-for="OldPass" class="form-control" />
+                <span asp-validation-for="OldPass" class="text-danger"></span>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <label>@ViewBag.PasswordError</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">New Password</label>
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
